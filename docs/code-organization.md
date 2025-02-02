@@ -1,3 +1,10 @@
+# VSCode Extension Code Structure
+
+## src/extension.ts
+
+The code should be organized into clear sections as follows:
+
+```typescript
 // Import Section
 import * as vscode from 'vscode';
 import ollama from 'ollama';
@@ -103,3 +110,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 // Extension Deactivation Section
 export function deactivate() {}
+```
+
+Each section is clearly marked with comments, making it easy to:
+
+1. Find specific functionality
+2. Copy individual sections when needed
+3. Maintain a clean and organized codebase
+
+The code follows a logical flow from imports → types → handlers → UI → extension lifecycle functions.
