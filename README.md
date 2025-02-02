@@ -2,6 +2,10 @@
 
 A Visual Studio Code extension that integrates DeepSeek AI using Ollama for local, privacy-focused AI assistance.
 
+This is completed by following the guidannce from the follow clip, then Roo Code (previous called Roo Cline) was used to create docs, refactor and add more info into README.md
+
+https://www.youtube.com/watch?v=clJCDHml2cA&t=216s
+
 ## Overview
 
 This extension demonstrates how to build a modern VSCode extension that leverages local AI models through Ollama. It showcases several important concepts in extension development:
