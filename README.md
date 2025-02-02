@@ -1,71 +1,158 @@
-# fireship-ext README
+# DeepSeek VSCode Extension
 
-This is the README for your extension "fireship-ext". After writing up a brief description, we recommend including the following sections.
+A Visual Studio Code extension that integrates DeepSeek AI using Ollama for local, privacy-focused AI assistance.
 
-## Features
+## Overview
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+This extension demonstrates how to build a modern VSCode extension that leverages local AI models through Ollama. It showcases several important concepts in extension development:
 
-For example if there is an image subfolder under your extension project workspace:
+1. WebView Integration
+2. Message Passing Architecture
+3. Streaming AI Responses
+4. Local AI Model Integration
 
-\!\[feature X\]\(images/feature-x.png\)
+## Technical Architecture
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### Core Components
 
-## Requirements
+#### 1. Extension Activation
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+```typescript
+export function activate(context: vscode.ExtensionContext) {
+  // Registers the command that launches our extension
+  const disposable = vscode.commands.registerCommand(
+    'fireship-ext.start',
+    () => {
+      // Creates the WebView panel
+      const panel = vscode.window.createWebviewPanel(
+        'deepChat',
+        'DeepSeek Chat',
+        vscode.ViewColumn.One,
+        {
+          enableScripts: true,
+        }
+      );
+    }
+  );
+}
+```
 
-## Extension Settings
+#### 2. Chat Response Handler
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+```typescript
+async function handleChatResponse(
+  panel: vscode.WebviewPanel,
+  userPrompt: string
+) {
+  let responseText = '';
 
-For example:
+  try {
+    const streamResponse = await ollama.chat({
+      model: 'deepseek-r1:7b',
+      messages: [{ role: 'user', content: userPrompt }],
+      stream: true,
+    });
 
-This extension contributes the following settings:
+    for await (const part of streamResponse) {
+      responseText += part.message.content;
+      panel.webview.postMessage({
+        command: 'chatResponse',
+        text: responseText,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### Key Implementation Details
 
-## Known Issues
+1. **WebView Communication**
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+   - Uses a message-passing architecture between the extension and WebView
+   - Implements bidirectional communication for sending prompts and receiving responses
 
-## Release Notes
+2. **Streaming Response Handling**
 
-Users appreciate release notes as you update your extension.
+   - Utilizes async iterators to handle streaming responses from Ollama
+   - Updates the UI in real-time as responses are received
 
-### 1.0.0
+3. **User Interface**
+   - Clean, minimal interface for text input and response display
+   - Responsive design that adapts to the VSCode window
 
-Initial release of ...
+## Educational Value
 
-### 1.0.1
+This project serves as an excellent learning resource for:
 
-Fixed issue #.
+1. **VSCode Extension Development**
 
-### 1.1.0
+   - Learn how to create and structure a VSCode extension
+   - Understand the extension lifecycle and activation events
+   - Master WebView integration and communication patterns
 
-Added features X, Y, and Z.
+2. **AI Integration**
 
----
+   - Implement local AI model integration using Ollama
+   - Handle streaming responses effectively
+   - Manage asynchronous communication with AI models
 
-## Following extension guidelines
+3. **Modern JavaScript/TypeScript**
+   - Async/await patterns
+   - Event-driven programming
+   - TypeScript interfaces and type safety
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+## Prerequisites
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+1. Visual Studio Code
+2. Node.js and npm
+3. Ollama installed locally with the DeepSeek model
 
-## Working with Markdown
+```bash
+ollama pull deepseek-r1:7b
+```
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## Setup and Installation
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+1. Clone the repository
+2. Install dependencies:
 
-## For more information
+```bash
+npm install
+```
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+3. Start Ollama server locally
+4. Press F5 in VSCode to start debugging the extension
 
-**Enjoy!**
+## How It Works
+
+1. The extension creates a WebView panel when activated
+2. User enters a prompt in the text area
+3. The prompt is sent to the Ollama server via message passing
+4. Responses are streamed back and displayed in real-time
+5. All processing happens locally, ensuring privacy
+
+## Code Organization
+
+The code follows a clear, modular structure:
+
+1. **Import Section** - Package dependencies
+2. **Types Section** - TypeScript interfaces
+3. **Chat Response Handler** - AI interaction logic
+4. **WebView Content** - UI implementation
+5. **Extension Lifecycle** - Activation and deactivation handlers
+
+This organization makes the code maintainable and educational, serving as a reference for similar projects.
+
+## Contributing
+
+Feel free to contribute by:
+
+1. Creating issues for bugs or feature requests
+2. Submitting pull requests with improvements
+3. Adding documentation or examples
+
+## License
+
+MIT License - Feel free to use this code for learning and building your own extensions!
