@@ -81,7 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       const panel = vscode.window.createWebviewPanel(
         'deepChat',
-        'DeepSeek Chat',
+        'DeepSeek Chat by Son Pham',
         vscode.ViewColumn.One,
         {
           enableScripts: true,

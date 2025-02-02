@@ -2,10 +2,6 @@
 
 A Visual Studio Code extension that integrates DeepSeek AI using Ollama for local, privacy-focused AI assistance.
 
-This is completed by following the guidannce from the follow clip, then Roo Code (previous called Roo Cline) was used to create docs, refactor and add more info into README.md
-
-https://www.youtube.com/watch?v=clJCDHml2cA&t=216s
-
 ## Overview
 
 This extension demonstrates how to build a modern VSCode extension that leverages local AI models through Ollama. It showcases several important concepts in extension development:
@@ -128,6 +124,37 @@ npm install
 
 3. Start Ollama server locally
 4. Press F5 in VSCode to start debugging the extension
+
+## Packaging and Local Installation
+
+1. Install the VSCE packaging tool globally:
+
+```bash
+npm install -g @vscode/vsce
+```
+
+2. Package the extension:
+
+```bash
+vsce package
+```
+
+This will create a .vsix file in your project directory (e.g., `fireship-ext-0.0.1.vsix`)
+
+3. Install the extension locally in VSCode:
+   - Open VSCode
+   - Go to the Extensions view (Ctrl+Shift+X)
+   - Click the ... (More Actions) button at the top
+   - Select "Install from VSIX..."
+   - Navigate to and select the .vsix file you created
+
+Alternatively, you can install it from the command line:
+
+```bash
+code --install-extension fireship-ext-0.0.1.vsix
+```
+
+Note: Replace `0.0.1` with your actual version number from package.json
 
 ## How It Works
 
