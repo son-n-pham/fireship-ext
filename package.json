@@ -10,13 +10,12 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "fireship-ext.start",
-        "title": "Start DeepSeek Chat"
+        "title": "Son - Start AI Assistant Chat"
       }
     ]
   },
@@ -40,6 +39,8 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.7",
     "ollama": "^0.5.12"
   }
 }
