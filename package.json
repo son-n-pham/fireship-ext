@@ -1,46 +1,70 @@
 {
-  "name": "fireship-ext",
-  "displayName": "fireship-ext",
-  "description": "",
-  "version": "0.0.1",
-  "license": "MIT",
-  "engines": {
-    "vscode": "^1.96.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "fireship-ext.start",
-        "title": "Son - Start AI Assistant Chat"
-      }
+    "name": "fireship-ext",
+    "displayName": "fireship-ext",
+    "description": "",
+    "version": "0.0.1",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.84.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "fireship-ext.start",
+                "title": "Son - Start AI Assistant Chat"
+            }
+        ],
+         "configuration": {
+            "title": "Fireship Extension Settings",
+            "properties": {
+              "fireship-ext.vsCodeLmModelSelector": {
+                "type": "object",
+                "properties": {
+                  "vendor": {
+                    "type": "string",
+                    "description": "The vendor of the language model (e.g. copilot)"
+                  },
+                  "family": {
+                    "type": "string",
+                    "description": "The family of the language model (e.g. gpt-4)"
+                  }
+                },
+                "description": "Settings for VSCode Language Model API"
+              }
+            }
+         }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.84.0",
+        "@typescript-eslint/eslint-plugin": "^8.17.0",
+        "@typescript-eslint/parser": "^8.17.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^9.16.0",
+        "typescript": "^5.7.2"
+    },
+    "dependencies": {
+        "@google/generative-ai": "^0.21.0",
+        "dotenv": "^16.4.7",
+        "ollama": "^0.5.12"
+    },
+    "extensionDependencies": [],
+
+    "enabledApiProposals": [
+        "interactive"
     ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.96.0",
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "@typescript-eslint/parser": "^8.17.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@google/generative-ai": "^0.21.0",
-    "dotenv": "^16.4.7",
-    "ollama": "^0.5.12"
-  }
 }

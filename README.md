@@ -21,12 +21,12 @@ This extension demonstrates how to build a modern VSCode extension that leverage
 export function activate(context: vscode.ExtensionContext) {
   // Registers the command that launches our extension
   const disposable = vscode.commands.registerCommand(
-    'fireship-ext.start',
+    "fireship-ext.start",
     () => {
       // Creates the WebView panel
       const panel = vscode.window.createWebviewPanel(
-        'deepChat',
-        'DeepSeek Chat',
+        "deepChat",
+        "DeepSeek Chat",
         vscode.ViewColumn.One,
         {
           enableScripts: true,
@@ -44,19 +44,19 @@ async function handleChatResponse(
   panel: vscode.WebviewPanel,
   userPrompt: string
 ) {
-  let responseText = '';
+  let responseText = "";
 
   try {
     const streamResponse = await ollama.chat({
-      model: 'deepseek-r1:7b',
-      messages: [{ role: 'user', content: userPrompt }],
+      model: "deepseek-r1:7b",
+      messages: [{ role: "user", content: userPrompt }],
       stream: true,
     });
 
     for await (const part of streamResponse) {
       responseText += part.message.content;
       panel.webview.postMessage({
-        command: 'chatResponse',
+        command: "chatResponse",
         text: responseText,
       });
     }
@@ -123,7 +123,8 @@ npm install
 ```
 
 3. Start Ollama server locally
-4. Press F5 in VSCode to start debugging the extension
+4. The extension can work with some Gemini models provided by Google. Change the env file to the name of ".env", input API key of Gemini into that .env file.
+5. Press F5 in VSCode to start debugging the extension
 
 ## Packaging and Local Installation
 
